@@ -32,9 +32,9 @@ Result dumpFonts(void)
 
 
     PlFontData font_infos[PlSharedFontType_Total];
-    u64 total_fonts;
+    s32 total_fonts;
 
-    Result res = plInitialize();
+    Result res = plInitialize(PlServiceType_User);
 
     if (R_FAILED(res))
         return res;
@@ -71,7 +71,6 @@ Result dumpFonts(void)
 
 int main(int argc, char **argv)
 {
-    gfxInitDefault();
     consoleInit(NULL);
 
     printf("Press A to dump fonts\n");
@@ -87,6 +86,8 @@ int main(int argc, char **argv)
         if (kDown & KEY_PLUS) break;
         else if (kDown & KEY_A && !font_dump_started)
         {
+            printf("Dumping... This may take a while\n");
+            consoleUpdate(NULL);
             font_dump_started = 1;
             Result res = dumpFonts();
             if (R_FAILED(res))
@@ -95,10 +96,8 @@ int main(int argc, char **argv)
                 printf("Operation completed\nPress + to exit\n");
         }
 
-        gfxFlushBuffers();
-        gfxSwapBuffers();
-        gfxWaitForVsync();
+        consoleUpdate(NULL);
     }
-    gfxExit();
+    consoleExit(NULL);
     return (0);
 }
