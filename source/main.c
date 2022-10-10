@@ -77,14 +77,18 @@ int main(int argc, char **argv)
     printf("Press + to exit\n");
     printf("Fonts will be dumped to %s\n", TARGET_DIR);
 
+    PadState pad;
+    padConfigureInput(1, HidNpadStyleSet_NpadStandard);
+    padInitializeDefault(&pad);
+
     int font_dump_started = 0;
     while(appletMainLoop())
     {
-        hidScanInput();
+        padUpdate(&pad);
 
-        u64 kDown = hidKeysDown(CONTROLLER_P1_AUTO);
-        if (kDown & KEY_PLUS) break;
-        else if (kDown & KEY_A && !font_dump_started)
+        u64 kDown = padGetButtonsDown(&pad);
+        if (kDown & HidNpadButton_Plus) break;
+        else if (kDown & HidNpadButton_A && !font_dump_started)
         {
             printf("Dumping... This may take a while\n");
             consoleUpdate(NULL);
