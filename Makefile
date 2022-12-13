@@ -9,8 +9,8 @@ include $(DEVKITPRO)/libnx/switch_rules
 
 TARGET		:=	ttf-dumper
 APP_TITLE	:=	TTF Font Dumper
-APP_AUTHOR	:=	Thog
-APP_VERSION	:=	1.0
+APP_AUTHOR	:=	marysaka
+APP_VERSION	:=	1.1
 BUILD		:=	build
 SOURCES		:=	source
 DATA		:=	data
